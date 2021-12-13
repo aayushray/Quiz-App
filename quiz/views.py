@@ -74,7 +74,7 @@ def login(request):
 
 
 def addQuestion(request):
-    if request.user.is_staff:
+    if request.user.is_authenticated:
         form=addQuestionform()
         if(request.method=='POST'):
             form=addQuestionform(request.POST)
