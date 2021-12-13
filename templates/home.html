@@ -1,0 +1,108 @@
+{% block content %}
+<div class="container ">
+<title>
+    Quiz
+</title>
+
+<style>
+    .home{
+        padding-left: 10%;
+        background-color: rgb(214, 203, 99);
+    }
+    .give_quiz{
+        padding-left: 30%;
+    }
+    .btn{
+        color: rgb(32, 13, 114);
+    }
+    .navbar{
+            background-color: rgb(6, 15, 5);
+        }
+    .navbar li{
+        float: left;
+        list-style: none;
+        margin: 20px 20px;
+    }
+
+    .navbar ul{
+        overflow: auto;
+    }
+    .navbar li a{
+        padding: 4px 4px;
+        text-decoration: none;
+        color: white;
+    }
+    .search{
+        float: right;
+        padding: 20px 100px;
+    }
+    
+    .navbar input{
+        border-color: wheat;
+    }
+
+    .navbar li a:hover{
+        color: yellowgreen;
+    }
+</style>
+
+<header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <!-- <li><a href="/register">Register</a></li>
+            <li><a href="/login">Login</a></li> -->
+            <li><a href="/addQuestion">Add Question</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="home">
+    <h1 class="give_quiz">Attempt Quiz</h1>
+    <br>
+
+    <form method='post' action=''>
+    {% csrf_token %}
+    <p>Enter your Name: </p>
+    <input type="text" name="name">
+    <p>Enter your email: </p>
+    <input type="email" name="email">
+    <br>
+    <br>
+    {% for q  in questions%}
+    <div class="form-group">
+        <label for="question">{{q.question}}</label>
+    </div>
+    <div class="form-check">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option1" checked>
+            <label class="form-check-label" for="gridRadios1">
+                {{q.op1}}
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option2">
+            <label class="form-check-label" for="gridRadios2">
+                {{q.op2}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option3">
+            <label class="form-check-label" for="gridRadios1">
+                {{q.op3}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option4">
+            <label class="form-check-label" for="gridRadios2">
+                {{q.op4}}
+            </label>
+        </div>
+        <br>
+    </div>    
+    {% endfor %}
+    <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+{% endblock %}
