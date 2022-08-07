@@ -16,7 +16,7 @@
     }
 
     .navbar ul{
-        overflow: auto;
+        overflow: auto;                 
     }
     .navbar li a{
         padding: 4px 4px;
@@ -50,7 +50,7 @@
         </ul>
     </nav>
 </header>
-    <div class="check">
+<div class="check">
     <h1 class="parent">Sign Up below</h1>
 
     <title>
@@ -62,20 +62,12 @@
         <h5>{{message}}</h5>
         {% endfor %}
     </div>
-
-
-    <form method="POST" action="register" class="check">
-        {% csrf_token %}
-        <p>Username: </p>
-        <input type="text" name="username">
-        <p>Email: </p>
-        <input type="email" name="email">
-        <p>Password: </p>
-        <input type="password" name="password">
-        <p>Repeat Password : </p>
-        <input type="password" name="password2">
-        <br>
-        <br>
-        <input type="submit">
-    </form>
+    <div class="container jumbotron">
+        <form method="POST" action="" >
+            {% csrf_token %}
+            {{form.as_p}}
+           
+            <input class="btn btn-success" type="submit" value="Register Account">
+        </form>
+    </div>
 </div>

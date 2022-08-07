@@ -3,25 +3,30 @@ from django.http import HttpResponse, JsonResponse
 from .models import *
 from .forms import *
 from django.contrib.auth.models import User,auth
+from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 
 def home(request):
-    
     if request.method == 'POST':
-        print(request.POST)
-        questions=QuesModel.objects.all()
+        # print(request.POST)
+        questions = QuesModel.objects.all()
+        correct = 0
+        total = 0
+
         for q in questions:
-            print(request.POST.get(q.question))
-            print(q.ans)
-            print()
-        # context = {
-        #     'score':score,
-        #     'correct':correct,
-        #     'wrong':wrong,
-        #     'percent':percent,
-        #     'total':total
-        # }
+            # print(request.POST.get(q.question))
+            # print(q.ans)
+            total+=1
+            if q.ans ==  request.POST.get(q.question):
+                correct+=1
+
+        
+        # print(score)
+        username = request.POST.get('name')
+        email = request.POST.get('email')
+
+        Score.objects.create(username=username, email=email, correct=correct, total_questions = total)
         return render(request,'thanx.html')
     else:
         questions=QuesModel.objects.all()
@@ -32,45 +37,34 @@ def home(request):
 
 
 def register(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-
-        if password == password2:
-            if User.objects.filter(email=email).exists():
-                messages.info(request, 'Email already exists')
-                return redirect('register')
-            elif User.objects.filter(username=username).exists():
-                messages.info(request, 'Username already exists')
-                return redirect('register')
-            else:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.save()
+    if request.user.is_authenticated:
+        return redirect('home')
+    else: 
+        form = createuserform()
+        if request.method=='POST':
+            form = createuserform(request.POST)
+            if form.is_valid() :
+                user=form.save()
                 return redirect('login')
-        else:
-            messages.info(request, 'Password doesnt match')
-            return redirect('register')
+        context={
+            'form':form,
+        }
+        return render(request,'register.html',context)
+
+
+def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     else:
-        return render(request, 'register.html')
-
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = auth.authenticate(username=username , password=password)
-
+       if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        user=authenticate(request,username=username,password=password)
         if user is not None:
-            auth.login(request,user)
+            login(request,user)
             return redirect('addQuestion')
-        else:
-            messages.info(request, 'Credentials Invalid')
-            return redirect('login')
-    else:
-        return render(request, 'login.html')
+       context={}
+       return render(request,'login.html',context)
 
 
 def addQuestion(request):

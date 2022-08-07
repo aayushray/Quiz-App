@@ -4,6 +4,8 @@
     }
     .check{
         padding-left: 25%;
+        font-family: Sans-serif;
+        font-size: large;
         background-color: rgb(90, 156, 156);
     }
     .navbar{
@@ -62,7 +64,7 @@
             {% endif %}
         </ul>
     </nav>
-</header>
+</header> 
 
 
 {% block content %}
@@ -76,7 +78,7 @@
                 {% csrf_token %}
                     {{form.as_p}}
                     <br>
-                <input type="submit" name="Submit">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 </div>
             </div>

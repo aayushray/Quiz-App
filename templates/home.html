@@ -4,13 +4,19 @@
     Quiz
 </title>
 
-<style>
+<style> 
     .home{
+        padding-left: 30%;
+        font-style: inherit;
+        font-family: Sans-serif;
+        font-size: large;
+        background-color: rgb(230, 170, 61);
+    }
+    .details{
         padding-left: 10%;
-        background-color: rgb(214, 203, 99);
     }
     .give_quiz{
-        padding-left: 30%;
+        padding-left: 10%;
     }
     .btn{
         color: rgb(32, 13, 114);
@@ -63,10 +69,12 @@
 
     <form method='post' action=''>
     {% csrf_token %}
-    <p>Enter your Name: </p>
-    <input type="text" name="name">
-    <p>Enter your email: </p>
-    <input type="email" name="email">
+    <div class="details">
+        <p>Enter your Name: </p>
+        <input type="text" name="name">
+        <p>Enter your email: </p>
+        <input type="email" name="email">
+    </div>
     <br>
     <br>
     {% for q  in questions%}
@@ -75,26 +83,26 @@
     </div>
     <div class="form-check">
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option1" checked>
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option1" unchecked>
             <label class="form-check-label" for="gridRadios1">
                 {{q.op1}}
             </label>
         </div>
 
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option2">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option2" unchecked>
             <label class="form-check-label" for="gridRadios2">
                 {{q.op2}}
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option3">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option3" unchecked>
             <label class="form-check-label" for="gridRadios1">
                 {{q.op3}}
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option4">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option4" unchecked>
             <label class="form-check-label" for="gridRadios2">
                 {{q.op4}}
             </label>
@@ -102,7 +110,7 @@
         <br>
     </div>    
     {% endfor %}
-    <button type="submit" class="btn">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 {% endblock %}
