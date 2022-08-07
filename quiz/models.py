@@ -19,3 +19,6 @@ class Score(models.Model):
     email = models.EmailField()
     correct = models.IntegerField(null=True)
     total_questions = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.username
